@@ -16,7 +16,7 @@ class Verify(commands.Cog):
         
         embed = discord.Embed(
             color=0x2b2d31,
-            title="<a:vip:1487505119661785260>  PRIME07 — PREMIER OSRS SERVICES  <a:vip:1487505119661785260>",
+            title="<a:vip:1487505119661785260>  Grindora — PREMIER OSRS SERVICES  <a:vip:1487505119661785260>",
             description=(
                 "Welcome to **Prime07**, the premium standard for Old School RuneScape account progression. "
                 "We turn your goals into progress—without the grind, using secure, hand-played expertise.\n"
@@ -64,7 +64,7 @@ class Verify(commands.Cog):
         
         embed.add_field(
             name="⚠️ SECURITY ADVISORY",
-            value="**Prime07 staff will NEVER DM you first or use external middlemen.\nAlways verify roles before sending GP/payment.**",
+            value="**Grindora staff will NEVER DM you first or use external middlemen.\nAlways verify roles before sending GP/payment.**",
             inline=False
         )
         
@@ -76,7 +76,7 @@ class Verify(commands.Cog):
             inline=False
         )
         
-        embed.set_footer(text="Prime07 — Premier OSRS Services")
+        embed.set_footer(text="Grindora — Premier OSRS Services")
         embed.set_timestamp()
         
         button = ActionRowBuilder().add_component(
