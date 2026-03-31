@@ -1,0 +1,40 @@
+# cogs/payments.py
+import discord
+from discord.ext import commands
+from discord import EmbedBuilder
+import config
+
+class Payments(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="pay")
+    async def show_payments(self, ctx):
+        """عرض طرق الدفع المتاحة"""
+        
+        embed = discord.Embed(
+            title="💸 Payment Methods",
+            description="Choose your preferred payment method:",
+            color=0x2b2d31
+        )
+        
+        for method, info in config.PAYMENT_ADDRESSES.items():
+            emoji = info.get("emoji", "")
+            address = info.get("address")
+            if address:
+                value = f"{emoji} **{method}**\n```\n{address}\n```"
+            else:
+                value = f"{emoji} **{method}**\n{info.get('details', '')}"
+            embed.add_field(
+                name=f"**{method}**",
+                value=value,
+                inline=False
+            )
+        
+        embed.set_footer(text="Prime07 — Premier OSRS Services")
+        embed.set_timestamp()
+        
+        await ctx.send(embed=embed)
+
+async def setup(bot):
+    await bot.add_cog(Payments(bot))
