@@ -39,49 +39,58 @@ def has_allowed_role():
 
 
 # ==============================
-# كلاسات أزرار الدفع (Payment Buttons)
+# كلاس القائمة المنسدلة للدفع (Select Menu)
 # ==============================
 
-class PaymentButton(ui.Button):
-    """Button for each payment method"""
+class PaymentSelect(ui.Select):
+    """Dropdown menu for selecting payment method"""
     
-    def __init__(self, name: str, emoji: str):
+    def __init__(self):
+        options = []
+        for name, data in config.PAYMENT_ADDRESSES.items():
+            options.append(
+                discord.SelectOption(
+                    label=name,
+                    emoji=data.get("emoji", "💰"),
+                    description=f"Click to view {name} payment details"
+                )
+            )
+        
         super().__init__(
-            label=name,
-            emoji=emoji,
-            style=discord.ButtonStyle.secondary,
-            custom_id=f"payment_{name.replace(' ', '_').replace('(', '').replace(')', '')}"
+            placeholder="💰 Select a payment method...",
+            options=options,
+            custom_id="payment_select"
         )
-        self.payment_name = name
     
     async def callback(self, interaction: discord.Interaction):
-        """When button is clicked"""
-        payment_data = config.PAYMENT_ADDRESSES[self.payment_name]
+        """When user selects a payment method"""
+        selected = self.values[0]
+        payment_data = config.PAYMENT_ADDRESSES[selected]
         
+        # Create embed with payment details
         embed = discord.Embed(
-            title=f"{payment_data.get('emoji', '💰')} {self.payment_name} - Payment Details",
+            title=f"{payment_data.get('emoji', '💰')} {selected} - Payment Details",
             description=payment_data["details"],
             color=discord.Color.gold()
         )
         
+        # Add important information
         embed.add_field(
-            name="⚠️ Important",
+            name="⚠️ IMPORTANT",
             value="• We NEVER DM first\n• Payments are ONLY done inside tickets\n• Always confirm staff before sending\n\n📌 After payment, send screenshot in this ticket",
             inline=False
         )
         
+        # Send ephemeral message (only visible to the user)
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
-class PaymentButtonsView(ui.View):
-    """View containing all payment method buttons"""
+class PaymentView(ui.View):
+    """View containing the payment select menu"""
     
     def __init__(self):
         super().__init__(timeout=None)
-        
-        # Add a button for each payment method
-        for name, data in config.PAYMENT_ADDRESSES.items():
-            self.add_item(PaymentButton(name, data.get("emoji", "💰")))
+        self.add_item(PaymentSelect())
 
 
 # ==============================
@@ -189,52 +198,59 @@ async def send_rules(ctx):
 
 
 # ==============================
-# أمر !pay - نظام الدفع بالأزرار
+# أمر !pay - نظام الدفع بالقائمة المنسدلة (Select Menu)
 # ==============================
 
 @bot.command(name="pay")
 @has_allowed_role()
-async def show_payments(ctx):
-    """عرض طرق الدفع المتاحة (لأصحاب الرتب المحددة)"""
+async def pay_command(ctx):
+    """Send payment methods embed with select menu (لأصحاب الرتب المحددة)"""
     
+    # Main embed
     embed = discord.Embed(
         title="💳 PRIME07 — PAYMENT METHODS",
         description="We currently accept the following:",
         color=discord.Color.gold()
     )
     
-    # Display all payment methods
-    methods = []
-    for name, data in config.PAYMENT_ADDRESSES.items():
-        methods.append(f"{data.get('emoji', '💰')} **{name}**")
-    
+    # OSRS GP Field
     embed.add_field(
-        name="🪙 Payment Methods",
-        value="\n".join(methods),
+        name="",
+        value=f"{config.PAYMENT_ADDRESSES['OSRS GP'].get('emoji', '⚔️')} **OSRS GP** - Contact staff for details",
         inline=False
     )
     
+    # Crypto Field
+    embed.add_field(
+        name="🪙 Crypto",
+        value="• BTC / LTC / USDT (TRC20) / ETH (ERC20) / Binance",
+        inline=False
+    )
+    
+    # Important Field
     embed.add_field(
         name="⚠️ Important",
         value="• We NEVER DM first\n• Payments are ONLY done inside tickets\n• Always confirm staff before sending\n\n📌 After payment, send screenshot in this ticket",
         inline=False
     )
     
-    embed.set_footer(text="Click any button below to see payment details")
+    # Footer
+    embed.set_footer(text="Select a payment method from the menu below to see details")
     
-    view = PaymentButtonsView()
+    # Send embed with select menu
+    view = PaymentView()
     await ctx.send(embed=embed, view=view)
 
 
 # ==============================
-# حدث تفاعل زر التحقق
+# حدث تفاعل القائمة المنسدلة والزر
 # ==============================
 
 @bot.event
 async def on_interaction(interaction):
-    """معالجة جميع الأزرار"""
+    """معالجة جميع التفاعلات (الزر والقائمة المنسدلة)"""
     
-    # التأكد من أن التفاعل هو زر (Button)
+    # التأكد من أن التفاعل هو تفاعل مكون (Button أو Select)
     if not interaction.type == discord.InteractionType.component:
         return
     
@@ -284,11 +300,9 @@ async def on_interaction(interaction):
                 ephemeral=True
             )
     
-    # ===== أزرار الدفع =====
-    elif custom_id.startswith("payment_"):
-        # الـ callback بتاع الزر هيتعامل معاه كلاس PaymentButton
-        # بس لازم نعرف إن الزر معمول من الـ View بتاعنا
-        pass
+    # ===== القائمة المنسدلة للدفع =====
+    # الـ Select Menu هيتعامل معاه كلاس PaymentSelect تلقائياً
+    # مش محتاج نضيف حاجة هنا عشان الـ callback شغال جوه الكلاس
 
 
 # ==============================
