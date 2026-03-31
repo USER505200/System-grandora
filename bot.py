@@ -309,18 +309,6 @@ async def on_interaction(interaction):
 # معالجة الأخطاء
 # ==============================
 
-@bot.event
-async def on_command_error(ctx, error):
-    """معالجة الأخطاء"""
-    if isinstance(error, commands.CommandNotFound):
-        await ctx.send("❌ Command not found. Available commands: `!rules`, `!pay`")
-    elif isinstance(error, commands.MissingPermissions):
-        await ctx.send("❌ You need **Administrator** permissions to use `!rules`.")
-    elif isinstance(error, commands.CheckFailure):
-        await ctx.send("❌ You don't have permission to use `!pay`. This command is only available for authorized roles.")
-    else:
-        print(f"Error: {error}")
-        await ctx.send(f"❌ An error occurred: {str(error)}")
 
 
 # ==============================
