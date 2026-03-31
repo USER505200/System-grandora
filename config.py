@@ -15,13 +15,18 @@ CH_RULES = "1487241829752639499"
 CH_RATES = "1487243724865011822"
 CH_TICKETS = "1487244035516006551"
 
-# Server emojis - غير الـ IDs دي حسب السيرفر بتاعك
-# عشان تجيب ID الإيموجي: اكتب \:emoji_name: في ديسكورد
+# الرتب المسموح لها باستخدام أمر !pay
+ALLOWED_PAY_ROLES = [
+    1487299732215697469,  # رتبة 1
+    1487298785913606317   # رتبة 2
+]
+
+# Server emojis
 SERVER_EMOJIS = {
     "binance": "<:binance:1488521944436576266>",
     "BTC": "<:BTC:1488522118483148931>",
-    "usdt": "<:usdt:123456789012345678>",  # غير الرقم ده
-    "ltc": "<:ltc:1488522296246145126>",
+    "usdt": "<:usdt:1488522296246145126>",
+    "ltc": "<:ltc:1488522472704970893>",
     "eth": "<:eth:1488526448514826451>",
     "osrs": "<:osrs:1488535767134244884>",
 }
@@ -31,7 +36,7 @@ PAYMENT_ADDRESSES = {
     "Binance ID": {
         "emoji": SERVER_EMOJIS["binance"],
         "address": "805246428",
-        "details": "**Binance ID:**\n```\n805246428\n```\n*Send payment to this ID*"
+        "details": "**Binance ID:**\n```\n805246428\n```\n*Send payment to this Binance ID*"
     },
     "BTC": {
         "emoji": SERVER_EMOJIS["BTC"],
