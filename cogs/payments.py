@@ -31,7 +31,7 @@ class Payments(commands.Cog):
                 inline=False
             )
         
-        embed.set_footer(text="Prime07 — Premier OSRS Services")
+        embed.set_footer(text="Grindora — Premier OSRS Services")
         embed.set_timestamp()
         
         await ctx.send(embed=embed)

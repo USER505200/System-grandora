@@ -82,7 +82,7 @@ class Verify(commands.Cog):
         button = ActionRowBuilder().add_component(
             ButtonBuilder(
                 custom_id="prime07_verify",
-                label="✅  Verify — I Accept the Rules",
+                label="✅  VerifyI Accept ",
                 style=ButtonStyle.success
             )
         )
