@@ -129,7 +129,6 @@ async def send_rules(ctx):
     )
     
     embed.set_footer(text="Prime07 — Premier OSRS Services")
-    embed.set_timestamp()
     
     # إنشاء الزر
     verify_button = discord.ui.Button(
@@ -154,7 +153,7 @@ async def send_rules(ctx):
 # ==============================
 
 @bot.command(name="pay")
-@has_allowed_role()  # 🔥 التحقق من الرتب المحددة
+@has_allowed_role()
 async def show_payments(ctx):
     """عرض طرق الدفع المتاحة (لأصحاب الرتب المحددة)"""
     
@@ -178,7 +177,6 @@ async def show_payments(ctx):
         )
     
     embed.set_footer(text="Prime07 — Premier OSRS Services")
-    embed.set_timestamp()
     
     await ctx.send(embed=embed)
 
