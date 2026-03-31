@@ -18,7 +18,7 @@ class Verify(commands.Cog):
             color=0x2b2d31,
             title="<a:vip:1487505119661785260>  Grindora — PREMIER OSRS SERVICES  <a:vip:1487505119661785260>",
             description=(
-                "Welcome to **Prime07**, the premium standard for Old School RuneScape account progression. "
+                "Welcome to **Grindora**, the premium standard for Old School RuneScape account progression. "
                 "We turn your goals into progress—without the grind, using secure, hand-played expertise.\n"
                 "━━━━━━━━━━━━━━━━━━"
             )
@@ -38,7 +38,7 @@ class Verify(commands.Cog):
         embed.add_field(name="━━━━━━━━━━━━━━━━━━", value="\u200b", inline=False)
         
         embed.add_field(
-            name="🛡️ WHY CHOOSE PRIME07",
+            name="🛡️ WHY CHOOSE Grindora",
             value=(
                 "✔ **Verified Grinders:** Hand-picked and deposit-verified for accountability.\n"
                 "✔ **Account Integrity:** No macros, no bots — 100% hand-played or your money back.\n"
@@ -81,7 +81,7 @@ class Verify(commands.Cog):
         
         button = ActionRowBuilder().add_component(
             ButtonBuilder(
-                custom_id="prime07_verify",
+                custom_id="Grindora_verify",
                 label="✅  VerifyI Accept ",
                 style=ButtonStyle.success
             )
@@ -96,7 +96,7 @@ class Verify(commands.Cog):
         if interaction.type != discord.InteractionType.component:
             return
         
-        if interaction.data.get("custom_id") != "prime07_verify":
+        if interaction.data.get("custom_id") != "Grindora_verify":
             return
         
         await interaction.response.defer(ephemeral=True)
@@ -120,7 +120,7 @@ class Verify(commands.Cog):
         try:
             await member.add_roles(role)
             await interaction.followup.send(
-                f"✅ **Welcome to Prime07, {member.display_name}!**\n"
+                f"✅ **Welcome to Grindora, {member.display_name}!**\n"
                 f"You have been granted the **{role.name}** role.\n\n"
                 f"📖 Check <#{config.CH_RULES}> for safety protocols.\n"
                 f"💰 Browse rates in <#{config.CH_RATES}>.\n"

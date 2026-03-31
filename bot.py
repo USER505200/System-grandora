@@ -100,7 +100,7 @@ class PaymentView(ui.View):
 @bot.event
 async def on_ready():
     """عند تشغيل البوت"""
-    print(f"✅ Prime07 Bot is online as {bot.user}")
+    print(f"✅ Grindora Bot is online as {bot.user}")
     print(f"📊 Connected to {len(bot.guilds)} servers")
     print(f"📝 Command prefix: !")
     print(f"🎯 Commands loaded: {[cmd.name for cmd in bot.commands]}")
@@ -117,9 +117,9 @@ async def send_rules(ctx):
     
     embed = discord.Embed(
         color=0x2b2d31,
-        title="<a:vip:1487505119661785260>  PRIME07 — PREMIER OSRS SERVICES  <a:vip:1487505119661785260>",
+        title="<a:vip:1487505119661785260>  Grindora — PREMIER OSRS SERVICES  <a:vip:1487505119661785260>",
         description=(
-            "Welcome to **Prime07**, the premium standard for Old School RuneScape account progression. "
+            "Welcome to **Grindora**, the premium standard for Old School RuneScape account progression. "
             "We turn your goals into progress—without the grind, using secure, hand-played expertise.\n"
             "━━━━━━━━━━━━━━━━━━"
         )
@@ -139,7 +139,7 @@ async def send_rules(ctx):
     embed.add_field(name="━━━━━━━━━━━━━━━━━━", value="\u200b", inline=False)
     
     embed.add_field(
-        name="🛡️ WHY CHOOSE PRIME07",
+        name="🛡️ WHY CHOOSE Grindora",
         value=(
             "✔ **Verified Grinders:** Hand-picked and deposit-verified for accountability.\n"
             "✔ **Account Integrity:** No macros, no bots — 100% hand-played or your money back.\n"
@@ -165,7 +165,7 @@ async def send_rules(ctx):
     
     embed.add_field(
         name="⚠️ SECURITY ADVISORY",
-        value="**Prime07 staff will NEVER DM you first or use external middlemen.\nAlways verify roles before sending GP/payment.**",
+        value="**Grindora staff will NEVER DM you first or use external middlemen.\nAlways verify roles before sending GP/payment.**",
         inline=False
     )
     
@@ -177,11 +177,11 @@ async def send_rules(ctx):
         inline=False
     )
     
-    embed.set_footer(text="Prime07 — Premier OSRS Services")
+    embed.set_footer(text="Grindora — Premier OSRS Services")
     
     # إنشاء زر التحقق
     verify_button = discord.ui.Button(
-        custom_id="prime07_verify",
+        custom_id="Grindora_verify",
         label="✅ Verify — I Accept the Rules",
         style=ButtonStyle.success
     )
@@ -208,7 +208,7 @@ async def pay_command(ctx):
     
     # Main embed
     embed = discord.Embed(
-        title="💳 PRIME07 — PAYMENT METHODS",
+        title="💳 Grindora — PAYMENT METHODS",
         description="We currently accept the following:",
         color=discord.Color.gold()
     )
@@ -260,7 +260,7 @@ async def on_interaction(interaction):
     custom_id = interaction.data.get("custom_id")
     
     # ===== زر التحقق =====
-    if custom_id == "prime07_verify":
+    if custom_id == "Grindora_verify":
         await interaction.response.defer(ephemeral=True)
         
         member = interaction.user
@@ -286,7 +286,7 @@ async def on_interaction(interaction):
         try:
             await member.add_roles(role)
             await interaction.followup.send(
-                f"✅ **Welcome to Prime07, {member.display_name}!**\n"
+                f"✅ **Welcome to Grindora, {member.display_name}!**\n"
                 f"You have been granted the **{role.name}** role.\n\n"
                 f"📖 Check <#{config.CH_RULES}> for safety protocols.\n"
                 f"💰 Browse rates in <#{config.CH_RATES}>.\n"
@@ -320,5 +320,5 @@ if __name__ == "__main__":
         print("❌ Error: DISCORD_TOKEN not found!")
         print("Please add DISCORD_TOKEN in Railway Environment Variables")
     else:
-        print("🚀 Starting Prime07 Bot...")
+        print("🚀 Starting Grindora Bot...")
         bot.run(config.TOKEN)
