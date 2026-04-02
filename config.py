@@ -34,12 +34,12 @@ PAYMENT_ADDRESSES = {
         "details": "**BTC Address:**\n```\n139VGYGut17XqR1XjxPx5Hmf3ntZYpBsqF\n```"
     },
     "USDT (TRC20)": {
-        "emoji": "<:usdt:1488522296246145126>",
+        "emoji": "<:usdt:1488522472704970893>",
         "address": "TQ5QS29PDc5xLPXnEeRLCovieWVvRu5D3s",
         "details": "**USDT (TRC20) Address:**\n```\nTQ5QS29PDc5xLPXnEeRLCovieWVvRu5D3s\n```"
     },
     "LTC": {
-        "emoji": "<:ltc:1488522472704970893>",
+        "emoji": "<:ltc:1488522296246145126>",
         "address": "LfktE6o5ZsWHEuphCxzTq8W2Bu5hiABMKh",
         "details": "**Litecoin Address:**\n```\nLfktE6o5ZsWHEuphCxzTq8W2Bu5hiABMKh\n```"
     },
