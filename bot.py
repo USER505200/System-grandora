@@ -219,7 +219,7 @@ async def pay_command(ctx):
     # OSRS GP Field
     embed.add_field(
         name="",
-        value=f"{config.PAYMENT_ADDRESSES['OSRS GP'].get('emoji', '⚔️')} **OSRS GP** - Contact staff for details",
+        value=f"⚔️ **OSRS GP** - Contact staff for details",
         inline=False
     )
     
