@@ -213,6 +213,9 @@ async def pay_command(ctx):
         color=discord.Color.gold()
     )
     
+    # إضافة الصورة على اليمين (thumbnail)
+    embed.set_thumbnail(url="https://media.discordapp.net/attachments/1487311776256098414/1489130417838882916/HHHHHHHHHHHHHHHHHHHHHH.gif?ex=69cf4c46&is=69cdfac6&hm=cba196652dd1f932781c40104bd0c479cffb3bae369f63cde213d1fa62f79824")
+    
     # OSRS GP Field
     embed.add_field(
         name="",
