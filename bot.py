@@ -100,6 +100,10 @@ class PaymentView(ui.View):
 @bot.event
 async def on_ready():
     """عند تشغيل البوت"""
+    # في bot.py الرئيسي بتاعك
+async def setup_hook(self):
+    await self.load_extension("cogs.feedback")  # أضف هذا السطر
+    await self.tree.sync()
     print(f"✅ Grindora Bot is online as {bot.user}")
     print(f"📊 Connected to {len(bot.guilds)} servers")
     print(f"📝 Command prefix: !")
