@@ -24,6 +24,9 @@ class Prime07Bot(commands.Bot):
     async def setup_hook(self):
         await self.tree.sync(guild=discord.Object(id=config.GUILD_ID))
         print("✅ Commands synced.")
+        # تحميل الكوجات
+        await self.load_extension("cogs.payments")
+        print("✅ Loaded cog: payments")
 
 bot = Prime07Bot()
 
@@ -43,7 +46,6 @@ def save_settings():
 
 def load_settings():
     """تحميل الإعدادات من الملف"""
-    global worker_role_id, feedback_channel_id
     if os.path.exists(SETTINGS_FILE):
         try:
             with open(SETTINGS_FILE, "r") as f:
@@ -188,55 +190,6 @@ class MainFeedbackView(discord.ui.View):
 
 
 # ==========================================
-# كلاس القائمة المنسدلة للدفع (Select Menu)
-# ==========================================
-
-class PaymentSelect(ui.Select):
-    """Dropdown menu for selecting payment method"""
-    
-    def __init__(self):
-        options = []
-        for name, data in config.PAYMENT_ADDRESSES.items():
-            options.append(
-                discord.SelectOption(
-                    label=name,
-                    emoji=data.get("emoji", "💰"),
-                    description=f"Click to view {name} payment details"
-                )
-            )
-        
-        super().__init__(
-            placeholder="💰 Select a payment method...",
-            options=options,
-            custom_id="payment_select"
-        )
-    
-    async def callback(self, interaction: discord.Interaction):
-        selected = self.values[0]
-        payment_data = config.PAYMENT_ADDRESSES[selected]
-        
-        embed = discord.Embed(
-            title=f"{payment_data.get('emoji', '💰')} {selected} - Payment Details",
-            description=payment_data["details"],
-            color=discord.Color.gold()
-        )
-        
-        embed.add_field(
-            name="⚠️ IMPORTANT",
-            value="• We NEVER DM first\n• Payments are ONLY done inside tickets\n• Always confirm staff before sending\n\n📌 After payment, send screenshot in this ticket",
-            inline=False
-        )
-        
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-
-
-class PaymentView(ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-        self.add_item(PaymentSelect())
-
-
-# ==========================================
 # EVENT: ON_READY
 # ==========================================
 
@@ -325,6 +278,7 @@ async def send_rules(ctx):
     )
     
     embed.set_footer(text="Prime07 — Premier OSRS Services")
+    embed.timestamp = discord.utils.utcnow()
     
     verify_button = discord.ui.Button(
         custom_id="prime07_verify",
@@ -341,45 +295,6 @@ async def send_rules(ctx):
         await ctx.message.delete()
     except:
         pass
-
-
-# ==========================================
-# COMMAND: !pay (نظام الدفع)
-# ==========================================
-
-@bot.command(name="pay")
-@has_allowed_role()
-async def pay_command(ctx):
-    """Send payment methods embed with select menu"""
-    
-    embed = discord.Embed(
-        title="💳 PRIME07 — PAYMENT METHODS",
-        description="We currently accept the following:",
-        color=discord.Color.gold()
-    )
-    
-    embed.add_field(
-        name="",
-        value=f"{config.PAYMENT_ADDRESSES['OSRS GP'].get('emoji', '⚔️')} **OSRS GP** - Contact staff for details",
-        inline=False
-    )
-    
-    embed.add_field(
-        name="🪙 Crypto",
-        value="• BTC / LTC / USDT (TRC20) / ETH (ERC20) / Binance",
-        inline=False
-    )
-    
-    embed.add_field(
-        name="⚠️ Important",
-        value="• We NEVER DM first\n• Payments are ONLY done inside tickets\n• Always confirm staff before sending\n\n📌 After payment, send screenshot in this ticket",
-        inline=False
-    )
-    
-    embed.set_footer(text="Select a payment method from the menu below to see details")
-    
-    view = PaymentView()
-    await ctx.send(embed=embed, view=view)
 
 
 # ==========================================
@@ -482,7 +397,9 @@ async def commands_help(ctx):
     embed.add_field(
         name="💰 **Payment Commands**",
         value=(
-            "`!pay` - Show payment methods (Authorized roles only)"
+            "`!pay` - Show payment methods\n"
+            "`!p` - Shortcut for payment\n"
+            "`!P` - Shortcut for payment"
         ),
         inline=False
     )
@@ -753,11 +670,11 @@ async def on_interaction(interaction):
 async def on_command_error(ctx, error):
     """معالجة الأخطاء"""
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send("❌ Command not found. Available commands: `!commands`, `!rules`, `!pay`, `!feedback`")
+        await ctx.send("❌ Command not found. Available commands: `!commands`")
     elif isinstance(error, commands.MissingPermissions):
         await ctx.send("❌ You need **Administrator** permissions to use this command.")
     elif isinstance(error, commands.CheckFailure):
-        await ctx.send("❌ You don't have permission to use `!pay`.")
+        await ctx.send("❌ You don't have permission to use this command.")
     else:
         print(f"Error: {error}")
         await ctx.send(f"❌ An error occurred: {str(error)}")
