@@ -1,17 +1,14 @@
 # config.py
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-# Bot Token
+# Bot Token - هتضيفه في Railway Environment Variables
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 # Server ID
 GUILD_ID = 1487197600456249378
 
-# Member Role ID (للتحقق - من نظام !rules)
-MEMBER_ROLE_ID = 1487292364052500613
+# Member Role ID (للتحقق)
+MEMBER_ROLE_ID = "1487292364052500613"
 
 # Channel IDs
 CH_RULES = "1487241829752639499"
@@ -24,11 +21,7 @@ ALLOWED_PAY_ROLES = [
     1487298785913606317   # رتبة 2
 ]
 
-# إعدادات نظام التقييم (Feedback)
-WORKER_ROLE_ID = None  # هيتحدد تلقائي من settings.json
-FEEDBACK_CHANNEL_ID = None  # هيتحدد تلقائي من settings.json
-
-# Payment addresses (لنظام !pay)
+# Payment addresses
 PAYMENT_ADDRESSES = {
     "Binance ID": {
         "emoji": "<:binance:1488521944436576266>",

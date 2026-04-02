@@ -1,13 +1,14 @@
 # cogs/payments.py
 import discord
 from discord.ext import commands
+from discord import EmbedBuilder
 import config
 
 class Payments(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="pay", aliases=["p", "P"])
+    @commands.command(name="pay")
     async def show_payments(self, ctx):
         """عرض طرق الدفع المتاحة"""
         
@@ -17,13 +18,9 @@ class Payments(commands.Cog):
             color=0x2b2d31
         )
         
-        # إضافة الصورة في أعلى اليمين (thumbnail)
-        embed.set_thumbnail(url="https://media.discordapp.net/attachments/1487311776256098414/1489130417838882916/HHHHHHHHHHHHHHHHHHHHHH.gif")
-        
         for method, info in config.PAYMENT_ADDRESSES.items():
             emoji = info.get("emoji", "")
             address = info.get("address")
-            
             if address:
                 value = f"{emoji} **{method}**\n```\n{address}\n```"
             else:
@@ -35,7 +32,7 @@ class Payments(commands.Cog):
             )
         
         embed.set_footer(text="Grindora — Premier OSRS Services")
-        embed.timestamp = discord.utils.utcnow()
+        embed.set_timestamp()
         
         await ctx.send(embed=embed)
 
