@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord import ButtonStyle, ui
 import config
 
-# إعدادات البوت
+# Bot setup
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -19,17 +19,17 @@ bot = commands.Bot(
 
 
 # ==============================
-# دالة التحقق من الصلاحية لـ !pay و !p
+# Permission check for !pay and !p
 # ==============================
 
 def has_allowed_role():
-    """التحقق من أن العضو عنده واحدة من الرتب المسموحة"""
+    """Check if member has allowed role"""
     async def predicate(ctx):
-        # لو أدمن، يسمح له
+        # Allow admins
         if ctx.author.guild_permissions.administrator:
             return True
         
-        # التحقق من الرتب
+        # Check roles
         for role_id in config.ALLOWED_PAY_ROLES:
             role = ctx.guild.get_role(role_id)
             if role and role in ctx.author.roles:
@@ -39,7 +39,7 @@ def has_allowed_role():
 
 
 # ==============================
-# كلاس القائمة المنسدلة للدفع (Select Menu)
+# Payment Select Menu
 # ==============================
 
 class PaymentSelect(ui.Select):
@@ -94,12 +94,12 @@ class PaymentView(ui.View):
 
 
 # ==============================
-# حدث تشغيل البوت
+# Bot Events
 # ==============================
 
 @bot.event
 async def on_ready():
-    """عند تشغيل البوت"""
+    """When bot is ready"""
     print(f"✅ Grindora Bot is online as {bot.user}")
     print(f"📊 Connected to {len(bot.guilds)} servers")
     print(f"📝 Command prefix: !")
@@ -107,13 +107,13 @@ async def on_ready():
 
 
 # ==============================
-# أمر !rules - نظام التحقق
+# Command !rules - Verification System
 # ==============================
 
 @bot.command(name="rules")
 @commands.has_permissions(administrator=True)
 async def send_rules(ctx):
-    """إرسال Embed التحقق (للأدمن فقط)"""
+    """Send verification embed (admin only)"""
     
     embed = discord.Embed(
         color=0x2b2d31,
@@ -179,7 +179,7 @@ async def send_rules(ctx):
     
     embed.set_footer(text="Grindora — Premier OSRS Services")
     
-    # إنشاء زر التحقق
+    # Create verify button
     verify_button = discord.ui.Button(
         custom_id="Grindora_verify",
         label="✅ Verify — I Accept the Rules",
@@ -198,13 +198,13 @@ async def send_rules(ctx):
 
 
 # ==============================
-# أمر !pay - نظام الدفع بالقائمة المنسدلة (Select Menu)
+# Command !pay - Payment System with Select Menu
 # ==============================
 
 @bot.command(name="pay")
 @has_allowed_role()
 async def pay_command(ctx):
-    """Send payment methods embed with select menu (لأصحاب الرتب المحددة)"""
+    """Send payment methods embed with select menu (for allowed roles)"""
     
     # Main embed
     embed = discord.Embed(
@@ -213,7 +213,7 @@ async def pay_command(ctx):
         color=discord.Color.gold()
     )
     
-    # إضافة الصورة على اليمين (thumbnail)
+    # Add thumbnail (top right image)
     embed.set_thumbnail(url="https://media.discordapp.net/attachments/1487311776256098414/1489130417838882916/HHHHHHHHHHHHHHHHHHHHHH.gif?ex=69cf4c46&is=69cdfac6&hm=cba196652dd1f932781c40104bd0c479cffb3bae369f63cde213d1fa62f79824")
     
     # OSRS GP Field
@@ -246,10 +246,10 @@ async def pay_command(ctx):
 
 
 # ==============================
-# أمر !p و !P - الدفع السريع بالبطاقة
+# Command !p and !P - Fast Payment Card
 # ==============================
 
-# روابط الصور
+# Image URLs
 TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489723944582910002/word_1.gif?ex=69d1750a&is=69d0238a&hm=e9861e30bd5918e66c2d324e9bf21104bd21d8c18de12fb6cfa00681ce6f51e1&"
 BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489730355316392088/Untitled-1.gif?ex=69d17b02&is=69d02982&hm=91bba9f3cb622da72a3555f8a9ed89383f533898b0172e271605523595e1ce54&"
 
@@ -257,62 +257,71 @@ BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1
 @has_allowed_role()
 async def p_command(ctx, amount: float = None):
     """
-    إرسال بطاقة دفع سريعة مع صور علوية وسفلية
-    الاستخدام: !p أو !p 500
+    Send fast payment card with top and bottom images
+    Usage: !p or !p 500
     """
+    # Payment URL - Change this to your actual payment link
     PAYMENT_URL = "https://payment.example.com/checkout"
     
+    # Default amount
     if amount is None:
         amount = 299.00
     
-    # إنشاء Embed مخصص
+    # Create embed
     embed = discord.Embed(
-        title="⚡ !p / !P - طلب دفع سريع ⚡",
+        title="⚡ !p / !P - Fast Payment Request ⚡",
         description=(
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            f"**💳 دفع سريع • Quick Payment**\n"
+            "**💳 Fast Payment • Quick Checkout**\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         ),
         color=discord.Color.gold()
     )
     
-    # إضافة الصورة العلوية على اليمين (thumbnail)
+    # Top right image (thumbnail)
     embed.set_thumbnail(url=TOP_IMAGE_URL)
     
-    # إضافة المبلغ
+    # Amount field
     embed.add_field(
-        name="💰 المبلغ المطلوب",
-        value=f"**{amount:,.2f} ج.م**\n*شامل الضريبة*",
+        name="💰 Amount Due",
+        value=f"**${amount:,.2f} USD**\n*Tax included*",
         inline=False
     )
     
-    # إضافة رابط الدفع
+    # Payment link field
     embed.add_field(
-        name="🔗 رابط الدفع المباشر",
-        value=f"[اضغط هنا للدفع]({PAYMENT_URL})\n`اختصار !p أو !P ينشئ هذه البطاقة`",
+        name="🔗 Payment Link",
+        value=f"[Click Here to Pay]({PAYMENT_URL})\n`Shortcut !p or !P generates this card`",
         inline=False
     )
     
-    # إضافة طرق الدفع
+    # Available payment methods
     embed.add_field(
-        name="✅ وسائل الدفع المتاحة",
-        value="• بطاقات الائتمان\n• فودافون كاش\n• إنستا باي\n• أمان تام",
+        name="✅ Available Payment Methods",
+        value="• Credit/Debit Cards (Visa/MasterCard)\n• Cryptocurrency (BTC, ETH, USDT)\n• Bank Transfer",
         inline=False
     )
     
-    # إضافة الصورة السفلية (كصورة في نهاية الـ embed)
+    # Security notice
+    embed.add_field(
+        name="⚠️ Security Notice",
+        value="• We NEVER DM first\n• Payments are ONLY done inside tickets\n• Always verify staff before sending",
+        inline=False
+    )
+    
+    # Bottom image
     embed.set_image(url=BOTTOM_IMAGE_URL)
     
-    # إضافة تذييل
+    # Footer
     embed.set_footer(
-        text="🧾 الاختصار !p أو !P | تم إنشاء طلب الدفع بنجاح",
+        text="🧾 Shortcut !p or !P | Payment request generated successfully",
         icon_url="https://cdn.discordapp.com/emojis/1487505119661785260.gif"
     )
     
-    # إنشاء زر الرابط بالطريقة الصحيحة
+    # Payment button
     view = discord.ui.View()
     view.add_item(discord.ui.Button(
-        label="💸 اضغط للدفع الآن 💸",
+        label="💸 Pay Now 💸",
         url=PAYMENT_URL,
         style=discord.ButtonStyle.link,
         emoji="💳"
@@ -322,14 +331,14 @@ async def p_command(ctx, amount: float = None):
 
 
 # ==============================
-# حدث تفاعل القائمة المنسدلة والزر
+# Interaction Handler
 # ==============================
 
 @bot.event
 async def on_interaction(interaction):
-    """معالجة جميع التفاعلات (الزر والقائمة المنسدلة)"""
+    """Handle all interactions (buttons and select menus)"""
     
-    # التأكد من أن التفاعل هو تفاعل مكون (Button أو Select)
+    # Check if interaction is a component interaction
     if not interaction.type == discord.InteractionType.component:
         return
     
@@ -338,7 +347,7 @@ async def on_interaction(interaction):
     
     custom_id = interaction.data.get("custom_id")
     
-    # ===== زر التحقق =====
+    # Verify button
     if custom_id == "Grindora_verify":
         await interaction.response.defer(ephemeral=True)
         
@@ -381,7 +390,7 @@ async def on_interaction(interaction):
 
 
 # ==============================
-# تشغيل البوت
+# Run Bot
 # ==============================
 
 if __name__ == "__main__":
