@@ -204,7 +204,11 @@ async def send_rules(ctx):
 @bot.command(name="pay")
 @has_allowed_role()
 async def pay_command(ctx):
-    """Send payment methods embed with select menu (لأصحاب الرتب المحددة)"""
+    """Send payment methods embed with select menu (for allowed roles)"""
+    
+    # Image URLs
+    TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489723944582910002/word_1.gif?ex=69d1750a&is=69d0238a&hm=e9861e30bd5918e66c2d324e9bf21104bd21d8c18de12fb6cfa00681ce6f51e1&"
+    BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489730355316392088/Untitled-1.gif?ex=69d17b02&is=69d02982&hm=91bba9f3cb622da72a3555f8a9ed89383f533898b0172e271605523595e1ce54&"
     
     # Main embed
     embed = discord.Embed(
@@ -213,8 +217,8 @@ async def pay_command(ctx):
         color=discord.Color.gold()
     )
     
-    # إضافة الصورة على اليمين (thumbnail)
-    embed.set_thumbnail(url="https://media.discordapp.net/attachments/1487311776256098414/1489130417838882916/HHHHHHHHHHHHHHHHHHHHHH.gif?ex=69cf4c46&is=69cdfac6&hm=cba196652dd1f932781c40104bd0c479cffb3bae369f63cde213d1fa62f79824")
+    # Top right image (thumbnail)
+    embed.set_thumbnail(url=TOP_IMAGE_URL)
     
     # OSRS GP Field
     embed.add_field(
@@ -237,6 +241,9 @@ async def pay_command(ctx):
         inline=False
     )
     
+    # Bottom image
+    embed.set_image(url=BOTTOM_IMAGE_URL)
+    
     # Footer
     embed.set_footer(text="Select a payment method from the menu below to see details")
     
@@ -246,14 +253,14 @@ async def pay_command(ctx):
 
 
 # ==============================
-# حدث تفاعل القائمة المنسدلة والزر
+# Interaction Handler
 # ==============================
 
 @bot.event
 async def on_interaction(interaction):
-    """معالجة جميع التفاعلات (الزر والقائمة المنسدلة)"""
+    """Handle all interactions (buttons and select menus)"""
     
-    # التأكد من أن التفاعل هو تفاعل مكون (Button أو Select)
+    # Check if interaction is a component interaction
     if not interaction.type == discord.InteractionType.component:
         return
     
@@ -262,7 +269,7 @@ async def on_interaction(interaction):
     
     custom_id = interaction.data.get("custom_id")
     
-    # ===== زر التحقق =====
+    # ===== Verify Button =====
     if custom_id == "Grindora_verify":
         await interaction.response.defer(ephemeral=True)
         
