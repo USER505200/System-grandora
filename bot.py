@@ -201,7 +201,7 @@ async def send_rules(ctx):
 # أمر !pay - نظام الدفع بالقائمة المنسدلة (Select Menu)
 # ==============================
 
-@bot.command(name="pay")
+@bot.command(name="p")
 @has_allowed_role()
 async def pay_command(ctx):
     """Send payment methods embed with select menu (for allowed roles)"""
