@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord import ButtonStyle, ui
 import config
 
-# Bot setup
+# إعدادات البوت
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -19,17 +19,17 @@ bot = commands.Bot(
 
 
 # ==============================
-# Permission check for !pay and !p
+# دالة التحقق من الصلاحية لـ !pay
 # ==============================
 
 def has_allowed_role():
-    """Check if member has allowed role"""
+    """التحقق من أن العضو عنده واحدة من الرتب المسموحة"""
     async def predicate(ctx):
-        # Allow admins
+        # لو أدمن، يسمح له
         if ctx.author.guild_permissions.administrator:
             return True
         
-        # Check roles
+        # التحقق من الرتب
         for role_id in config.ALLOWED_PAY_ROLES:
             role = ctx.guild.get_role(role_id)
             if role and role in ctx.author.roles:
@@ -39,7 +39,7 @@ def has_allowed_role():
 
 
 # ==============================
-# Payment Select Menu
+# كلاس القائمة المنسدلة للدفع (Select Menu)
 # ==============================
 
 class PaymentSelect(ui.Select):
@@ -94,12 +94,12 @@ class PaymentView(ui.View):
 
 
 # ==============================
-# Bot Events
+# حدث تشغيل البوت
 # ==============================
 
 @bot.event
 async def on_ready():
-    """When bot is ready"""
+    """عند تشغيل البوت"""
     print(f"✅ Grindora Bot is online as {bot.user}")
     print(f"📊 Connected to {len(bot.guilds)} servers")
     print(f"📝 Command prefix: !")
@@ -107,13 +107,13 @@ async def on_ready():
 
 
 # ==============================
-# Command !rules - Verification System
+# أمر !rules - نظام التحقق
 # ==============================
 
 @bot.command(name="rules")
 @commands.has_permissions(administrator=True)
 async def send_rules(ctx):
-    """Send verification embed (admin only)"""
+    """إرسال Embed التحقق (للأدمن فقط)"""
     
     embed = discord.Embed(
         color=0x2b2d31,
@@ -179,7 +179,7 @@ async def send_rules(ctx):
     
     embed.set_footer(text="Grindora — Premier OSRS Services")
     
-    # Create verify button
+    # إنشاء زر التحقق
     verify_button = discord.ui.Button(
         custom_id="Grindora_verify",
         label="✅ Verify — I Accept the Rules",
@@ -198,13 +198,13 @@ async def send_rules(ctx):
 
 
 # ==============================
-# Command !pay - Payment System with Select Menu
+# أمر !pay - نظام الدفع بالقائمة المنسدلة (Select Menu)
 # ==============================
 
 @bot.command(name="pay")
 @has_allowed_role()
 async def pay_command(ctx):
-    """Send payment methods embed with select menu (for allowed roles)"""
+    """Send payment methods embed with select menu (لأصحاب الرتب المحددة)"""
     
     # Main embed
     embed = discord.Embed(
@@ -213,7 +213,7 @@ async def pay_command(ctx):
         color=discord.Color.gold()
     )
     
-    # Add thumbnail (top right image)
+    # إضافة الصورة على اليمين (thumbnail)
     embed.set_thumbnail(url="https://media.discordapp.net/attachments/1487311776256098414/1489130417838882916/HHHHHHHHHHHHHHHHHHHHHH.gif?ex=69cf4c46&is=69cdfac6&hm=cba196652dd1f932781c40104bd0c479cffb3bae369f63cde213d1fa62f79824")
     
     # OSRS GP Field
@@ -246,99 +246,14 @@ async def pay_command(ctx):
 
 
 # ==============================
-# Command !p and !P - Fast Payment Card
-# ==============================
-
-# Image URLs
-TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489723944582910002/word_1.gif?ex=69d1750a&is=69d0238a&hm=e9861e30bd5918e66c2d324e9bf21104bd21d8c18de12fb6cfa00681ce6f51e1&"
-BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489730355316392088/Untitled-1.gif?ex=69d17b02&is=69d02982&hm=91bba9f3cb622da72a3555f8a9ed89383f533898b0172e271605523595e1ce54&"
-
-@bot.command(name="p", aliases=["P"])
-@has_allowed_role()
-async def p_command(ctx, amount: float = None):
-    """
-    Send fast payment card with top and bottom images
-    Usage: !p or !p 500
-    """
-    # Payment URL - Change this to your actual payment link
-    PAYMENT_URL = "https://payment.example.com/checkout"
-    
-    # Default amount
-    if amount is None:
-        amount = 299.00
-    
-    # Create embed
-    embed = discord.Embed(
-        title="⚡ !p / !P - Fast Payment Request ⚡",
-        description=(
-            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            "**💳 Fast Payment • Quick Checkout**\n"
-            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        ),
-        color=discord.Color.gold()
-    )
-    
-    # Top right image (thumbnail)
-    embed.set_thumbnail(url=TOP_IMAGE_URL)
-    
-    # Amount field
-    embed.add_field(
-        name="💰 Amount Due",
-        value=f"**${amount:,.2f} USD**\n*Tax included*",
-        inline=False
-    )
-    
-    # Payment link field
-    embed.add_field(
-        name="🔗 Payment Link",
-        value=f"[Click Here to Pay]({PAYMENT_URL})\n`Shortcut !p or !P generates this card`",
-        inline=False
-    )
-    
-    # Available payment methods
-    embed.add_field(
-        name="✅ Available Payment Methods",
-        value="• Credit/Debit Cards (Visa/MasterCard)\n• Cryptocurrency (BTC, ETH, USDT)\n• Bank Transfer",
-        inline=False
-    )
-    
-    # Security notice
-    embed.add_field(
-        name="⚠️ Security Notice",
-        value="• We NEVER DM first\n• Payments are ONLY done inside tickets\n• Always verify staff before sending",
-        inline=False
-    )
-    
-    # Bottom image
-    embed.set_image(url=BOTTOM_IMAGE_URL)
-    
-    # Footer
-    embed.set_footer(
-        text="🧾 Shortcut !p or !P | Payment request generated successfully",
-        icon_url="https://cdn.discordapp.com/emojis/1487505119661785260.gif"
-    )
-    
-    # Payment button
-    view = discord.ui.View()
-    view.add_item(discord.ui.Button(
-        label="💸 Pay Now 💸",
-        url=PAYMENT_URL,
-        style=discord.ButtonStyle.link,
-        emoji="💳"
-    ))
-    
-    await ctx.send(embed=embed, view=view)
-
-
-# ==============================
-# Interaction Handler
+# حدث تفاعل القائمة المنسدلة والزر
 # ==============================
 
 @bot.event
 async def on_interaction(interaction):
-    """Handle all interactions (buttons and select menus)"""
+    """معالجة جميع التفاعلات (الزر والقائمة المنسدلة)"""
     
-    # Check if interaction is a component interaction
+    # التأكد من أن التفاعل هو تفاعل مكون (Button أو Select)
     if not interaction.type == discord.InteractionType.component:
         return
     
@@ -347,7 +262,7 @@ async def on_interaction(interaction):
     
     custom_id = interaction.data.get("custom_id")
     
-    # Verify button
+    # ===== زر التحقق =====
     if custom_id == "Grindora_verify":
         await interaction.response.defer(ephemeral=True)
         
@@ -387,10 +302,20 @@ async def on_interaction(interaction):
                 "❌ Failed to add the role. Make sure the bot's role is **above** the Member role in the server settings.",
                 ephemeral=True
             )
+    
+    # ===== القائمة المنسدلة للدفع =====
+    # الـ Select Menu هيتعامل معاه كلاس PaymentSelect تلقائياً
+    # مش محتاج نضيف حاجة هنا عشان الـ callback شغال جوه الكلاس
 
 
 # ==============================
-# Run Bot
+# معالجة الأخطاء
+# ==============================
+
+
+
+# ==============================
+# تشغيل البوت
 # ==============================
 
 if __name__ == "__main__":
