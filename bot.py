@@ -94,91 +94,6 @@ class PaymentView(ui.View):
 
 
 # ==============================
-# كلاس عرض الدفع السريع بـ !p
-# ==============================
-
-class PaymentCardView(ui.View):
-    """View with payment link button"""
-    
-    def __init__(self, payment_url: str):
-        super().__init__(timeout=None)
-        self.payment_url = payment_url
-    
-    @ui.button(label="💳 اضغط هنا للدفع 💳", style=ButtonStyle.link, url="https://payment.example.com")
-    async def payment_button(self, interaction: discord.Interaction, button: ui.Button):
-        """This button is handled by the url parameter automatically"""
-        pass
-
-
-async def send_payment_card(ctx, amount: float = None):
-    """إرسال بطاقة الدفع السريع مع الصور"""
-    
-    # الصور المطلوبة
-    TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489723944582910002/word_1.gif?ex=69d1750a&is=69d0238a&hm=e9861e30bd5918e66c2d324e9bf21104bd21d8c18de12fb6cfa00681ce6f51e1&"
-    BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489730355316392088/Untitled-1.gif?ex=69d17b02&is=69d02982&hm=91bba9f3cb622da72a3555f8a9ed89383f533898b0172e271605523595e1ce54&"
-    
-    # رابط الدفع (يمكن تعديله حسب احتياجك)
-    PAYMENT_URL = "https://payment.example.com/checkout"
-    
-    if amount is None:
-        amount = 299.00
-    
-    # إنشاء Embed مخصص
-    embed = discord.Embed(
-        title="⚡ !p / !P - طلب دفع سريع ⚡",
-        description=(
-            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            f"**💳 دفع سريع • Quick Payment**\n"
-            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        ),
-        color=discord.Color.gold()
-    )
-    
-    # إضافة الصورة العلوية على اليمين (thumbnail)
-    embed.set_thumbnail(url=TOP_IMAGE_URL)
-    
-    # إضافة المبلغ
-    embed.add_field(
-        name="💰 المبلغ المطلوب",
-        value=f"**{amount:,.2f} ج.م**\n*شامل الضريبة*",
-        inline=False
-    )
-    
-    # إضافة رابط الدفع
-    embed.add_field(
-        name="🔗 رابط الدفع المباشر",
-        value=f"[اضغط هنا للدفع]({PAYMENT_URL})\n`اختصار !p أو !P ينشئ هذه البطاقة`",
-        inline=False
-    )
-    
-    # إضافة طرق الدفع
-    embed.add_field(
-        name="✅ وسائل الدفع المتاحة",
-        value="• بطاقات الائتمان\n• فودافون كاش\n• إنستا باي\n• أمان تام",
-        inline=False
-    )
-    
-    # إضافة الصورة السفلية (كصورة في نهاية الـ embed)
-    embed.set_image(url=BOTTOM_IMAGE_URL)
-    
-    # إضافة تذييل
-    embed.set_footer(
-        text="🧾 الاختصار !p أو !P | تم إنشاء طلب الدفع بنجاح",
-        icon_url="https://cdn.discordapp.com/emojis/1487505119661785260.gif"
-    )
-    
-    # إرسال الـ embed مع زر الرابط
-    view = discord.ui.View()
-    view.add_item(discord.ui.Button(
-        label="💸 اضغط للدفع الآن 💸",
-        url=PAYMENT_URL,
-        style=discord.ButtonStyle.link
-    ))
-    
-    await ctx.send(embed=embed, view=view)
-
-
-# ==============================
 # حدث تشغيل البوت
 # ==============================
 
@@ -334,6 +249,10 @@ async def pay_command(ctx):
 # أمر !p و !P - الدفع السريع بالبطاقة
 # ==============================
 
+# روابط الصور
+TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489723944582910002/word_1.gif?ex=69d1750a&is=69d0238a&hm=e9861e30bd5918e66c2d324e9bf21104bd21d8c18de12fb6cfa00681ce6f51e1&"
+BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1489497861350494339/1489730355316392088/Untitled-1.gif?ex=69d17b02&is=69d02982&hm=91bba9f3cb622da72a3555f8a9ed89383f533898b0172e271605523595e1ce54&"
+
 @bot.command(name="p", aliases=["P"])
 @has_allowed_role()
 async def p_command(ctx, amount: float = None):
@@ -341,7 +260,65 @@ async def p_command(ctx, amount: float = None):
     إرسال بطاقة دفع سريعة مع صور علوية وسفلية
     الاستخدام: !p أو !p 500
     """
-    await send_payment_card(ctx, amount)
+    PAYMENT_URL = "https://payment.example.com/checkout"
+    
+    if amount is None:
+        amount = 299.00
+    
+    # إنشاء Embed مخصص
+    embed = discord.Embed(
+        title="⚡ !p / !P - طلب دفع سريع ⚡",
+        description=(
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"**💳 دفع سريع • Quick Payment**\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        ),
+        color=discord.Color.gold()
+    )
+    
+    # إضافة الصورة العلوية على اليمين (thumbnail)
+    embed.set_thumbnail(url=TOP_IMAGE_URL)
+    
+    # إضافة المبلغ
+    embed.add_field(
+        name="💰 المبلغ المطلوب",
+        value=f"**{amount:,.2f} ج.م**\n*شامل الضريبة*",
+        inline=False
+    )
+    
+    # إضافة رابط الدفع
+    embed.add_field(
+        name="🔗 رابط الدفع المباشر",
+        value=f"[اضغط هنا للدفع]({PAYMENT_URL})\n`اختصار !p أو !P ينشئ هذه البطاقة`",
+        inline=False
+    )
+    
+    # إضافة طرق الدفع
+    embed.add_field(
+        name="✅ وسائل الدفع المتاحة",
+        value="• بطاقات الائتمان\n• فودافون كاش\n• إنستا باي\n• أمان تام",
+        inline=False
+    )
+    
+    # إضافة الصورة السفلية (كصورة في نهاية الـ embed)
+    embed.set_image(url=BOTTOM_IMAGE_URL)
+    
+    # إضافة تذييل
+    embed.set_footer(
+        text="🧾 الاختصار !p أو !P | تم إنشاء طلب الدفع بنجاح",
+        icon_url="https://cdn.discordapp.com/emojis/1487505119661785260.gif"
+    )
+    
+    # إنشاء زر الرابط بالطريقة الصحيحة
+    view = discord.ui.View()
+    view.add_item(discord.ui.Button(
+        label="💸 اضغط للدفع الآن 💸",
+        url=PAYMENT_URL,
+        style=discord.ButtonStyle.link,
+        emoji="💳"
+    ))
+    
+    await ctx.send(embed=embed, view=view)
 
 
 # ==============================
