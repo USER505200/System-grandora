@@ -182,7 +182,7 @@ async def send_rules(ctx):
     # إنشاء زر التحقق
     verify_button = discord.ui.Button(
         custom_id="Grindora_verify",
-        label="✅ Verify — I Accept the Rules",
+        label="✅ Verify",
         style=ButtonStyle.success
     )
     
