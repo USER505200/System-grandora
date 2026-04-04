@@ -155,7 +155,7 @@ async def send_rules(ctx):
         name="🚀 GET STARTED",
         value=(
             f"📖 Read our <#{config.CH_RULES}> for safety protocols.\n"
-            f"💰 Browse rates in <#{config.CH_RATES}>\n"
+            f"💰 Browse basket here <#{config.CH_RATES}>\n"
             f"🔥 Ready to get started? Open a ticket in <#{config.CH_TICKETS}>"
         ),
         inline=False
@@ -299,7 +299,7 @@ async def on_interaction(interaction):
                 f"✅ **Welcome to Grindora, {member.display_name}!**\n"
                 f"You have been granted the **{role.name}** role.\n\n"
                 f"📖 Check <#{config.CH_RULES}> for safety protocols.\n"
-                f"💰 Browse rates in <#{config.CH_RATES}>.\n"
+                f"💰 Browse basket here <#{config.CH_RATES}>.\n"
                 f"🎟️ Open a ticket in <#{config.CH_TICKETS}> when ready!",
                 ephemeral=True
             )
