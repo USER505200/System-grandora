@@ -107,18 +107,18 @@ async def on_ready():
 
 
 # ==============================
-# أمر !rules - نظام التحقق (بالصور الجديدة)
+# أمر !rules - نظام التحقق
 # ==============================
 
 @bot.command(name="rules")
 @commands.has_permissions(administrator=True)
 async def send_rules(ctx):
-    """إرسال Embed التحقق (للأدمن فقط) - بالصور الجديدة"""
+    """إرسال Embed التحقق (للأدمن فقط)"""
     
     # روابط الصور
     LEFT_SMALL_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178588738293982/Comp_1.gif?ex=69f12a92&is=69efd912&hm=83176a70a6937c8b291dcb266a041efc00dfa4f3d885ca43acb64414f2773a74&"
     RIGHT_TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589958836346/Untitled-1.gif?ex=69f12a92&is=69efd912&hm=dedca0c215b363bd42b2d8ca0ec0b998b7349d99062e5f69f99c0a2a3d0dc0ad&"
-    BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589346201650/hello_3.gif?ex=69f12a92&is=69efd912&hm=72a996025e2b3d4937883c26535e4511b51d0fa1c8907c667c33be2a30a35c19&"
+    BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178588738293982/Comp_1.gif?ex=69f12a92&is=69efd912&hm=83176a70a6937c8b291dcb266a041efc00dfa4f3d885ca43acb64414f2773a74&"
     
     # إنشاء Embed باللون المطلوب #dd7222
     embed = discord.Embed(
@@ -133,10 +133,10 @@ async def send_rules(ctx):
     # ✅ الصورة الكبيرة في الأعلى
     embed.set_image(url=RIGHT_TOP_IMAGE_URL)
     
-    # ✅✅✅ إضافة الفوتر كصورة في Field في الأعلى (تحت الصورة الكبيرة مباشرة)
+    # ✅✅✅ إضافة الصورة اللي كانت تحت في الأعلى (نفس الصورة)
     embed.add_field(
         name="\u200b",
-        value=f"-# [‎ ](https://cdn.discordapp.com/attachments/1488235109650796786/1495178589346201650/hello_3.gif?ex=69f12a92&is=69efd912&hm=72a996025e2b3d4937883c26535e4511b51d0fa1c8907c667c33be2a30a35c19&)",
+        value=f"-# [‎ ]({BOTTOM_IMAGE_URL})",
         inline=False
     )
     
@@ -221,8 +221,8 @@ async def send_rules(ctx):
         inline=False
     )
     
-    # ✅ footer عادي في الأسفل (اختياري)
-    embed.set_footer(text="Grindora — Premier OSRS Services")
+    # ✅✅✅ إضافة نفس الصورة تحت خالص في الفوتر
+    embed.set_footer(text="Grindora — Premier OSRS Services", icon_url=BOTTOM_IMAGE_URL)
     
     # إنشاء زر التحقق
     verify_button = discord.ui.Button(
