@@ -107,19 +107,31 @@ async def on_ready():
 
 
 # ==============================
-# أمر !rules - نظام التحقق (النص الجديد)
+# أمر !rules - نظام التحقق (بالصور الجديدة)
 # ==============================
 
 @bot.command(name="rules")
 @commands.has_permissions(administrator=True)
 async def send_rules(ctx):
-    """إرسال Embed التحقق (للأدمن فقط) - مع النص الجديد"""
+    """إرسال Embed التحقق (للأدمن فقط) - بالصور الجديدة"""
     
+    # روابط الصور الجديدة
+    LEFT_SMALL_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178588738293982/Comp_1.gif?ex=69f12a92&is=69efd912&hm=83176a70a6937c8b291dcb266a041efc00dfa4f3d885ca43acb64414f2773a74&"
+    RIGHT_TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178588008222830/Comp_1_4.gif?ex=69f12a92&is=69efd912&hm=1563487aa33386e3442778b663301da034eb77ce686721ccffa52bb2f21d66f5&"
+    BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589346201650/hello_3.gif?ex=69f12a92&is=69efd912&hm=72a996025e2b3d4937883c26535e4511b51d0fa1c8907c667c33be2a30a35c19&"
+    
+    # إنشاء Embed باللون المطلوب #dd7222
     embed = discord.Embed(
-        color=0x2b2d31,
+        color=0xdd7222,  # اللون المطلوب
         title="WELCOME TO GRINDORA — PREMIER OSRS SERVICES",
-        description="*The gold standard for secure, hand-played account progression.*"
+        description="────────**We do the Grind You keep the Chill**────────"
     )
+    
+    # وضع الصورة الصغيرة على الشمال (thumbnail)
+    embed.set_thumbnail(url=LEFT_SMALL_IMAGE_URL)
+    
+    # وضع الصورة على اليمين في الأعلى (image في الأعلى)
+    embed.set_image(url=RIGHT_TOP_IMAGE_URL)
     
     # خط فاصل
     embed.add_field(name="──────────────────────────────────", value="\u200b", inline=False)
@@ -181,7 +193,12 @@ async def send_rules(ctx):
         inline=False
     )
     
-    embed.set_footer(text="Grindora — Premier OSRS Services")
+    # إضافة الصورة الثالثة في الأسفل (Bottom Image)
+    # ملاحظة: بما أننا استخدمنا set_image للصورة العلوية، 
+    # لإضافة صورة أسفل المحتوى هنستخدم صورة في footer أو نضيفها كـ field
+    
+    # Footer مع الصورة أو بدون
+    embed.set_footer(text="Grindora — Premier OSRS Services", icon_url=BOTTOM_IMAGE_URL)
     
     # إنشاء زر التحقق
     verify_button = discord.ui.Button(
