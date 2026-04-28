@@ -123,13 +123,18 @@ async def send_rules(ctx):
     # إنشاء Embed باللون المطلوب #dd7222
     embed = discord.Embed(
         color=0xdd7222,
-        title="WELCOME TO GRINDORA — PREMIER OSRS SERVICES",
         description="────────**We do the Grind You keep the Chill**────────"
     )
-    
-    # ✅ الصورة الصغيرة على الشمال (thumbnail) - جنب العنوان
+
+    # ✅ صورة صغيرة جنب كلمة WELCOME فوق خالص
+    embed.set_author(
+        name="WELCOME TO GRINDORA — PREMIER OSRS SERVICES",
+        icon_url=LEFT_SMALL_IMAGE_URL
+    )
+
+    # ✅ الصورة الصغيرة على اليمين (thumbnail)
     embed.set_thumbnail(url=LEFT_SMALL_IMAGE_URL)
-    
+
     # ✅ الصورة الكبيرة في الأعلى
     embed.set_image(url=RIGHT_TOP_IMAGE_URL)
     
