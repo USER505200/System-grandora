@@ -115,21 +115,23 @@ async def on_ready():
 async def send_rules(ctx):
     """إرسال Embed التحقق (للأدمن فقط) - بالصور الجديدة"""
     
-    # روابط الصور الجديدة
+    # روابط الصور
     LEFT_SMALL_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178588738293982/Comp_1.gif?ex=69f12a92&is=69efd912&hm=83176a70a6937c8b291dcb266a041efc00dfa4f3d885ca43acb64414f2773a74&"
     RIGHT_TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589958836346/Untitled-1.gif?ex=69f12a92&is=69efd912&hm=dedca0c215b363bd42b2d8ca0ec0b998b7349d99062e5f69f99c0a2a3d0dc0ad&"
+    BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589346201650/hello_3.gif?ex=69f12a92&is=69efd912&hm=72a996025e2b3d4937883c26535e4511b51d0fa1c8907c667c33be2a30a35c19&"
     
     # إنشاء Embed باللون المطلوب #dd7222
+    # ✅ الصورة الصغيرة هتظهر جنب العنوان على اليمين (thumbnail)
     embed = discord.Embed(
-        color=0xdd7222,  # اللون المطلوب
+        color=0xdd7222,
         title="WELCOME TO GRINDORA — PREMIER OSRS SERVICES",
         description="────────**We do the Grind You keep the Chill**────────"
     )
     
-    # وضع الصورة الصغيرة على الشمال (thumbnail)
+    # ✅ الصورة الصغيرة على الشمال (thumbnail) - دي هتظهر في الزاوية اليمنى العليا جنب العنوان
     embed.set_thumbnail(url=LEFT_SMALL_IMAGE_URL)
     
-    # وضع الصورة على اليمين في الأعلى (image في الأعلى)
+    # ✅ الصورة الكبيرة في الأعلى
     embed.set_image(url=RIGHT_TOP_IMAGE_URL)
     
     # خط فاصل
@@ -192,7 +194,7 @@ async def send_rules(ctx):
         inline=False
     )
     
-    # إضافة الصورة الثالثة في الأسفل (Bottom Image)
+    # ✅ الصورة تحت خالص في الفوتر
     embed.set_footer(text="Grindora — Premier OSRS Services", icon_url=BOTTOM_IMAGE_URL)
     
     # إنشاء زر التحقق
@@ -232,7 +234,7 @@ async def send_vouch(ctx):
     
     # إنشاء Embed
     embed = discord.Embed(
-        color=0xdd7222,  # نفس لون الـ rules
+        color=0xdd7222,
         title="# Grindora — Sythe Vouch Thread",
         description=(
             "If we've completed a service for you, please leave your honest vouch on our official Sythe thread below:\n"
@@ -240,10 +242,10 @@ async def send_vouch(ctx):
         )
     )
     
-    # وضع الصورة على اليسار (thumbnail)
+    # وضع الصورة على الشمال (thumbnail)
     embed.set_thumbnail(url=LEFT_IMAGE_URL)
     
-    # وضع الصورة على اليمين في الأعلى
+    # وضع الصورة في الأعلى
     embed.set_image(url=RIGHT_IMAGE_URL)
     
     # Vouch Message Field
@@ -267,7 +269,7 @@ async def send_vouch(ctx):
     
     embed.add_field(name="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", value="\u200b", inline=False)
     
-    # Footer مع الرابط
+    # Footer مع الصورة
     embed.set_footer(text="Sythe Vouch Link", icon_url=BOTTOM_IMAGE_URL)
     
     # إنشاء الأزرار
@@ -421,14 +423,12 @@ async def on_interaction(interaction):
     
     # ===== Vouch Buttons =====
     elif custom_id == "vouch_payment_button":
-        # يمكنك توجيه المستخدم إلى قناة الدفع أو أمر الدفع
         await interaction.response.send_message(
             f"💰 **Payment Methods**\nPlease visit <#{config.CH_RATES}> for our payment methods and rates!\n\nYou can also use the `!p` command in any channel.",
             ephemeral=True
         )
     
     elif custom_id == "vouch_services_button":
-        # يمكنك توجيه المستخدم إلى قائمة الخدمات
         await interaction.response.send_message(
             f"⚔️ **Grindora Services**\nCheck out <#{config.CH_RULES}> for our complete list of services!\n\nWe offer Skilling, Questing, PvM, Raids, and Elite Unlocks.",
             ephemeral=True
