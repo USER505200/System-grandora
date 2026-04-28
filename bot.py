@@ -194,10 +194,6 @@ async def send_rules(ctx):
     )
     
     # إضافة الصورة الثالثة في الأسفل (Bottom Image)
-    # ملاحظة: بما أننا استخدمنا set_image للصورة العلوية، 
-    # لإضافة صورة أسفل المحتوى هنستخدم صورة في footer أو نضيفها كـ field
-    
-    # Footer مع الصورة أو بدون
     embed.set_footer(text="Grindora — Premier OSRS Services", icon_url=BOTTOM_IMAGE_URL)
     
     # إنشاء زر التحقق
@@ -209,6 +205,99 @@ async def send_rules(ctx):
     
     view = discord.ui.View()
     view.add_item(verify_button)
+    
+    await ctx.send(embed=embed, view=view)
+    
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+
+
+# ==============================
+# أمر !vouch - نظام الـ Vouches
+# ==============================
+
+@bot.command(name="vouch")
+@commands.has_permissions(administrator=True)
+async def send_vouch(ctx):
+    """إرسال Embed الـ Vouch (للأدمن فقط)"""
+    
+    # روابط الصور
+    LEFT_IMAGE_URL = "https://media.discordapp.net/attachments/1489083566800240752/1489337660152615013/Comp_1.gif?ex=69f102c8&is=69efb148&hm=35640dd034c88a7775d1bbfdd240e6ca02ba5a17de9b160df4d46b2a2ac948b5&width=150&height=150&"
+    RIGHT_IMAGE_URL = "https://media.discordapp.net/attachments/1489083566800240752/1489337660152615013/Comp_1.gif?ex=69f102c8&is=69efb148&hm=35640dd034c88a7775d1bbfdd240e6ca02ba5a17de9b160df4d46b2a2ac948b5&"
+    BOTTOM_IMAGE_URL = "https://media.discordapp.net/attachments/1489083566800240752/1489229189398921378/Untitled-1.gif?ex=69f14683&is=69eff503&hm=8d0d6cc84d1047359e9fa2ef9dce1d1fa06bcf9f6e458bca32673c7ca8d7a16f&width=813&height=113&"
+    
+    # Sythe Vouch Link (ضع الرابط الصحيح هنا)
+    SYTHE_VOUCH_LINK = "https://www.sythe.org/threads/grindora-services"  # غير هذا الرابط
+    
+    # إنشاء Embed
+    embed = discord.Embed(
+        color=0xdd7222,  # نفس لون الـ rules
+        title="# Grindora — Sythe Vouch Thread",
+        description=(
+            "If we've completed a service for you, please leave your honest vouch on our official Sythe thread below:\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        )
+    )
+    
+    # وضع الصورة على اليسار (thumbnail)
+    embed.set_thumbnail(url=LEFT_IMAGE_URL)
+    
+    # وضع الصورة على اليمين في الأعلى
+    embed.set_image(url=RIGHT_IMAGE_URL)
+    
+    # Vouch Message Field
+    embed.add_field(
+        name="📝 **Already vouched on Sythe?**",
+        value=(
+            "Feel free to drop a copy here as well — we truly appreciate your support ❤️\n\n"
+            "**Bonus:** Receive +3% off your next order (stacks with Grindora Ranks)"
+        ),
+        inline=False
+    )
+    
+    embed.add_field(name="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", value="\u200b", inline=False)
+    
+    # Thank you message
+    embed.add_field(
+        name="🙏 Thank you for choosing Grindora Services!",
+        value="\u200b",
+        inline=False
+    )
+    
+    embed.add_field(name="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", value="\u200b", inline=False)
+    
+    # Footer مع الرابط
+    embed.set_footer(text="Sythe Vouch Link", icon_url=BOTTOM_IMAGE_URL)
+    
+    # إنشاء الأزرار
+    view = discord.ui.View()
+    
+    # زر PAYMENT METHODS
+    payment_button = discord.ui.Button(
+        label="💰 PAYMENT METHODS",
+        style=ButtonStyle.primary,
+        custom_id="vouch_payment_button"
+    )
+    
+    # زر GRINDORA SERVICES
+    services_button = discord.ui.Button(
+        label="⚔️ GRINDORA SERVICES",
+        style=ButtonStyle.success,
+        custom_id="vouch_services_button"
+    )
+    
+    # زر Sythe Vouch Link
+    sythe_button = discord.ui.Button(
+        label="📝 Sythe Vouch Link",
+        style=ButtonStyle.link,
+        url=SYTHE_VOUCH_LINK
+    )
+    
+    view.add_item(payment_button)
+    view.add_item(services_button)
+    view.add_item(sythe_button)
     
     await ctx.send(embed=embed, view=view)
     
@@ -330,6 +419,21 @@ async def on_interaction(interaction):
                 "❌ Failed to add the role. Make sure the bot's role is **above** the Member role in the server settings.",
                 ephemeral=True
             )
+    
+    # ===== Vouch Buttons =====
+    elif custom_id == "vouch_payment_button":
+        # يمكنك توجيه المستخدم إلى قناة الدفع أو أمر الدفع
+        await interaction.response.send_message(
+            f"💰 **Payment Methods**\nPlease visit <#{config.CH_RATES}> for our payment methods and rates!\n\nYou can also use the `!p` command in any channel.",
+            ephemeral=True
+        )
+    
+    elif custom_id == "vouch_services_button":
+        # يمكنك توجيه المستخدم إلى قائمة الخدمات
+        await interaction.response.send_message(
+            f"⚔️ **Grindora Services**\nCheck out <#{config.CH_RULES}> for our complete list of services!\n\nWe offer Skilling, Questing, PvM, Raids, and Elite Unlocks.",
+            ephemeral=True
+        )
 
 
 # ==============================
