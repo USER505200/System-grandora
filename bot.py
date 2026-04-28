@@ -117,8 +117,7 @@ async def send_rules(ctx):
     
     # روابط الصور الجديدة
     LEFT_SMALL_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178588738293982/Comp_1.gif?ex=69f12a92&is=69efd912&hm=83176a70a6937c8b291dcb266a041efc00dfa4f3d885ca43acb64414f2773a74&"
-    RIGHT_TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178588008222830/Comp_1_4.gif?ex=69f12a92&is=69efd912&hm=1563487aa33386e3442778b663301da034eb77ce686721ccffa52bb2f21d66f5&"
-    BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589346201650/hello_3.gif?ex=69f12a92&is=69efd912&hm=72a996025e2b3d4937883c26535e4511b51d0fa1c8907c667c33be2a30a35c19&"
+    RIGHT_TOP_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589958836346/Untitled-1.gif?ex=69f12a92&is=69efd912&hm=dedca0c215b363bd42b2d8ca0ec0b998b7349d99062e5f69f99c0a2a3d0dc0ad&"
     
     # إنشاء Embed باللون المطلوب #dd7222
     embed = discord.Embed(
