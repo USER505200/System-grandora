@@ -121,18 +121,45 @@ async def send_rules(ctx):
     BOTTOM_IMAGE_URL = "https://cdn.discordapp.com/attachments/1488235109650796786/1495178589346201650/hello_3.gif?ex=69f12a92&is=69efd912&hm=72a996025e2b3d4937883c26535e4511b51d0fa1c8907c667c33be2a30a35c19&"
     
     # إنشاء Embed باللون المطلوب #dd7222
-    # ✅ الصورة الصغيرة هتظهر جنب العنوان على اليمين (thumbnail)
     embed = discord.Embed(
         color=0xdd7222,
         title="WELCOME TO GRINDORA — PREMIER OSRS SERVICES",
         description="────────**We do the Grind You keep the Chill**────────"
     )
     
-    # ✅ الصورة الصغيرة على الشمال (thumbnail) - دي هتظهر في الزاوية اليمنى العليا جنب العنوان
+    # ✅ الصورة الصغيرة على الشمال (thumbnail) - جنب العنوان
     embed.set_thumbnail(url=LEFT_SMALL_IMAGE_URL)
     
     # ✅ الصورة الكبيرة في الأعلى
     embed.set_image(url=RIGHT_TOP_IMAGE_URL)
+    
+    # ✅✅✅ إضافة الفوتر كصورة في Field في الأعلى (تحت الصورة الكبيرة مباشرة)
+    embed.add_field(
+        name="\u200b",
+        value=f"-# [‎ ](https://cdn.discordapp.com/attachments/1488235109650796786/1495178589346201650/hello_3.gif?ex=69f12a92&is=69efd912&hm=72a996025e2b3d4937883c26535e4511b51d0fa1c8907c667c33be2a30a35c19&)",
+        inline=False
+    )
+    
+    # ACCESS TEXT
+    embed.add_field(
+        name="**ACCESS**",
+        value="\u200b",
+        inline=False
+    )
+    
+    # GRINDORA SERVICES & SKILLING
+    embed.add_field(
+        name="**GRINDORA SERVICES**",
+        value="**SKILLING**",
+        inline=False
+    )
+    
+    # Grindora – Premier OSRS Services
+    embed.add_field(
+        name="**Grindora – Premier OSRS Services**",
+        value="\u200b",
+        inline=False
+    )
     
     # خط فاصل
     embed.add_field(name="──────────────────────────────────", value="\u200b", inline=False)
@@ -194,8 +221,8 @@ async def send_rules(ctx):
         inline=False
     )
     
-    # ✅ الصورة تحت خالص في الفوتر
-    embed.set_footer(text="Grindora — Premier OSRS Services", icon_url=BOTTOM_IMAGE_URL)
+    # ✅ footer عادي في الأسفل (اختياري)
+    embed.set_footer(text="Grindora — Premier OSRS Services")
     
     # إنشاء زر التحقق
     verify_button = discord.ui.Button(
@@ -229,8 +256,8 @@ async def send_vouch(ctx):
     RIGHT_IMAGE_URL = "https://media.discordapp.net/attachments/1489083566800240752/1489337660152615013/Comp_1.gif?ex=69f102c8&is=69efb148&hm=35640dd034c88a7775d1bbfdd240e6ca02ba5a17de9b160df4d46b2a2ac948b5&"
     BOTTOM_IMAGE_URL = "https://media.discordapp.net/attachments/1489083566800240752/1489229189398921378/Untitled-1.gif?ex=69f14683&is=69eff503&hm=8d0d6cc84d1047359e9fa2ef9dce1d1fa06bcf9f6e458bca32673c7ca8d7a16f&width=813&height=113&"
     
-    # Sythe Vouch Link (ضع الرابط الصحيح هنا)
-    SYTHE_VOUCH_LINK = "https://www.sythe.org/threads/grindora-services"  # غير هذا الرابط
+    # Sythe Vouch Link
+    SYTHE_VOUCH_LINK = "https://www.sythe.org/threads/grindora-services"
     
     # إنشاء Embed
     embed = discord.Embed(
